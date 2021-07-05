@@ -1,30 +1,69 @@
-import * as React from "react"
-import { Link } from "gatsby"
-import { StaticImage } from "gatsby-plugin-image"
+import { useEffect, useState } from "react";
+import _ from "lodash";
 
-import Layout from "../components/layout"
-import Seo from "../components/seo"
+import NameForm from "../components/NameForm";
+import MasteryTable from "../components/MasteryTable";
+import StatsPanel from "../components/StatsPanel";
+import "../styles/global.css";
 
-const IndexPage = () => (
-  <Layout>
-    <Seo title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <p>test api key is {process.env.GATSBY_MY_ENVIRONMENT}</p>
-    <StaticImage
-      src="../images/gatsby-astronaut.png"
-      width={300}
-      quality={95}
-      formats={["AUTO", "WEBP", "AVIF"]}
-      alt="A Gatsby astronaut"
-      style={{ marginBottom: `1.45rem` }}
-    />
-    <p>
-      <Link to="/page-2/">Go to page 2</Link> <br />
-      <Link to="/using-typescript/">Go to "Using TypeScript"</Link>
-    </p>
-  </Layout>
-)
+const IndexPage = () => {
+  const [summoner, setSummoner] = useState({});
+  const [region, setRegion] = useState("NA");
+  const [masteryData, setMasteryData] = useState([]);
+  const [champData, setChampData] = useState([]);
 
-export default IndexPage
+  const updateSummoner = async (summoner) => {
+    setSummoner(summoner);
+    await getMasteryData(summoner);
+  };
+
+  const getMasteryData = async (summoner) => {
+    try {
+      const res = await fetch("/.netlify/functions/getMastery", {
+        method: "POST",
+        body: JSON.stringify({
+          summonerId: summoner.id,
+          regionName: region,
+        }),
+      });
+      const masteryData = await res.json();
+      setMasteryData(masteryData);
+    } catch (err) {
+      console.error(`Error retrieving mastery data!`);
+    }
+  };
+
+  const loadChamps = async () => {
+    try {
+      const res = await fetch("/.netlify/functions/getChamps");
+      const champData = await res.json();
+      setChampData(champData.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    loadChamps();
+  }, []);
+
+  return (
+    <>
+      <div className="content">
+        <h1>Champion Mastery</h1>
+        <h4>Enter a Summoner name</h4>
+        <NameForm
+          setSummoner={updateSummoner}
+          region={region}
+          setRegion={setRegion}
+        />
+        <div className="mainContent">
+          <MasteryTable champData={champData} masteryData={masteryData} />
+          <StatsPanel champData={champData} masteryData={masteryData} />
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default IndexPage;
