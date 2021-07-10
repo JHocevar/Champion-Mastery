@@ -4,6 +4,20 @@
   margin: 0;
   padding: 0;
   font-family: "Roboto", sans-serif !important;
+  box-sizing: inherit;
+  --bg-blue-1: rgb(31, 183, 243);
+  --bg-blue-2: rgb(2, 96, 139);
+  --primary: rgba(2, 96, 139);
+  --primary-dark: rgb(0, 36, 53);
+  --primary-light: rgba(228, 248, 255, 0.822);
+}
+
+html {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  font: 112.5%/1.45em georgia, serif, sans-serif;
+  box-sizing: border-box;
+  overflow-y: scroll;
 }
 
 html,
@@ -12,19 +26,35 @@ body {
 }
 
 body {
-  /* background: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%); */
   height: 100%;
   background: radial-gradient(
     at top center,
-    rgb(31, 183, 243) 0%,
-    rgb(2, 96, 139) 100%
+    var(--bg-blue-1) 0%,
+    var(--bg-blue-2) 100%
   );
   background-repeat: no-repeat;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-kerning: normal;
+  -moz-font-feature-settings: "kern", "liga", "clig", "calt";
+  -ms-font-feature-settings: "kern", "liga", "clig", "calt";
+  -webkit-font-feature-settings: "kern", "liga", "clig", "calt";
+  font-feature-settings: "kern", "liga", "clig", "calt";
+}
+
+button,
+input,
+select {
+  font: inherit;
+  margin: 0;
 }
 
 h1 {
   margin-top: 10px;
   margin-bottom: 20px;
+  font-size: 2.25rem;
+  line-height: 1.1;
 }
 
 h4 {
@@ -33,6 +63,13 @@ h4 {
 
 h3 {
   margin: 10px;
+}
+
+.header {
+  position: absolute;
+  top: 0.5em;
+  right: 2em;
+  color: white;
 }
 
 .content {
@@ -46,6 +83,7 @@ h3 {
 }
 
 .inputForm {
+  position: relative;
   display: inline-block;
   margin: auto;
   position: relative;
@@ -68,8 +106,8 @@ h3 {
 }
 
 .regionDropdownBtn {
-  background-color: rgba(2, 96, 139);
-  border: 3px solid rgb(0, 36, 53);
+  background-color: var(--primary);
+  border: 3px solid var(--primary-dark);
   border-radius: 10px;
   width: 3.7em;
   padding: 3px 6px;
@@ -80,8 +118,8 @@ h3 {
 .regionDropdownContent {
   display: none;
   position: absolute;
-  background-color: rgba(228, 248, 255, 0.822);
-  border: 3px solid rgb(0, 36, 53);
+  background-color: var(--primary-light);
+  border: 3px solid var(--primary-dark);
   border-radius: 8px;
   min-width: 3.5em;
   cursor: pointer;
@@ -96,23 +134,59 @@ h3 {
 }
 
 .regionSelect:hover {
-  background-color: rgb(0, 36, 53);
+  background-color: var(--primary-dark);
   color: white;
 }
 
 .regionDropdown:hover .regionDropdownBtn {
-  background-color: rgba(228, 248, 255, 0.822);
+  background-color: var(--primary-light);
   color: black;
 }
 
 .nameInput {
-  border: 3px solid rgb(0, 36, 53);
+  border: 3px solid var(--primary-dark);
   border-radius: 20px;
-  background-color: rgba(228, 248, 255, 0.822);
+  background-color: var(--primary-light);
   line-height: 1.7em;
   text-align: center;
   box-sizing: border-box;
   min-width: 20em;
+}
+
+.notFound {
+  background: red;
+  width: 90%;
+  left: 5%;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border: 2px solid var(--primary-dark);
+  position: absolute;
+  font-size: 0.75em;
+  line-height: 1.5em;
+  animation: summoner 8000ms;
+  display: block;
+  animation-fill-mode: forwards;
+  transform-origin: top;
+}
+
+@keyframes summoner {
+  0% {
+    transform: scaleY(0);
+    display: block;
+  }
+  10% {
+    transform: scaleY(1);
+    display: block;
+  }
+  50% {
+    transform: scaleY(1);
+    display: block;
+  }
+  100% {
+    transform: scaleY(0);
+    top: 100%;
+    display: none;
+  }
 }
 
 .nameInput:focus {
@@ -133,8 +207,8 @@ h3 {
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  background-color: rgb(2, 96, 139);
-  border: 2px solid rgb(0, 36, 53);
+  background-color: var(--primary);
+  border: 2px solid var(--primary-dark);
   border-bottom: 0;
   border-style: outset;
   color: white;
@@ -144,7 +218,7 @@ h3 {
 .champTableRow > div {
   display: inline-block;
   text-align: left;
-  width: 30%;
+  width: 20%;
 }
 
 .champTableRow > div.champImageDiv {
@@ -154,8 +228,8 @@ h3 {
 .champImage {
   display: inline-block;
   vertical-align: middle;
-  border: 2px solid rgb(0, 36, 53);
-  background: rgb(0, 36, 53);
+  border: 2px solid var(--primary-dark);
+  background: var(--primary-dark);
   border-radius: 5px;
   position: absolute !important;
   margin: auto;
@@ -171,17 +245,18 @@ h3 {
   vertical-align: top;
   text-align: center;
   width: 30%;
-  background-color: rgb(2, 96, 139);
-  border: 2px solid rgb(0, 36, 53);
+  background-color: var(--primary);
+  border: 2px solid var(--primary-dark);
   color: white;
   margin-left: 5%;
 }
 
 .stat {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-self: center;
-  background-color: rgba(228, 248, 255, 0.822);
+  background-color: var(--primary-light);
   height: 2em;
   color: black;
 }
@@ -193,8 +268,144 @@ h3 {
   margin-right: 5px;
   margin-left: 5px;
   align-self: center;
+  z-index: 1;
 }
 
 .statsContainer > div {
   margin-bottom: 10px;
+}
+
+.progressbar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-color: green;
+  z-index: 1;
+}
+
+.graphCanvas {
+  position: relative;
+  background-color: var(--primary-dark);
+  border-radius: 10px;
+  padding: 20px;
+  padding-top: 2em;
+  margin-top: 2em;
+}
+
+.canvasContainer {
+  position: relative;
+}
+
+.canvasBtns {
+  font-size: 0.75em;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.canvasBtn {
+  margin: 0.7em;
+  border: 2px solid var(--primary-dark);
+  border-radius: 10px;
+  padding: 0px 6px;
+}
+
+.canvasBtn:hover {
+  background-color: var(--bg-blue-1);
+}
+
+.btn-sml {
+  margin-left: 0;
+}
+
+.canvasText {
+  position: absolute;
+  top: 0.4em;
+  right: 0;
+  left: 0;
+  color: var(--primary-light);
+  font-size: 2em;
+}
+
+.inputSlider {
+  color: red;
+  background: red;
+  cursor: pointer;
+  width: 85%;
+}
+
+.gearImage {
+  fill: white;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+
+.graphSettings {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--primary-light);
+  border-radius: 10px;
+  border: 2px solid var(--primary-dark);
+  z-index: 1;
+}
+
+.graphSettings:hover {
+  display: block;
+  animation: settings 500ms ease-in-out;
+}
+
+.gearImage:hover + .graphSettings {
+  animation: settings 500ms ease-in-out;
+  display: block;
+  z-index: 1;
+}
+
+@keyframes settings {
+  from {
+    transform: scale(0);
+    transform-origin: top right;
+  }
+  to {
+    transform: scale(1);
+    transform-origin: top right;
+  }
+}
+
+.gearImage:hover {
+  fill: var(--primary);
+}
+
+.inputSlider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 0.5em;
+  outline: none;
+  opacity: 0.7;
+  background-color: var(--primary);
+  border-radius: 10px;
+  margin: 1em;
+}
+
+.inputSlider:hover {
+  background-color: var(--bg-blue-1);
+  opacity: 1;
+}
+
+.inputSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1em;
+  height: 1em;
+  border-radius: 10em;
+  background: white;
+  cursor: pointer;
+}
+
+.settingsText {
+  margin: 0px 10px;
 }

@@ -1,13 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { StaticImage } from "gatsby-plugin-image";
 
 import { regionNames } from "../util/constants.js";
 import "../styles/global.css";
 
-export default function NameForm({ setSummoner, region, setRegion }) {
+export default function NameForm({
+  setSummoner,
+  region,
+  setRegion,
+  masteryData,
+}) {
   const [name, setName] = useState("");
+  const [notFound, setNotFound] = useState(false);
+  const [noMastery, setNoMastery] = useState(false);
 
   const getSummoner = async () => {
+    setNotFound(false);
+    setNoMastery(false);
     if (name === "") {
       console.warn("enter a name before submitting");
       return;
@@ -21,9 +30,10 @@ export default function NameForm({ setSummoner, region, setRegion }) {
         }),
       });
       const summoner = await res.json();
-      setSummoner(summoner);
+      await setSummoner(summoner);
     } catch (err) {
       console.error(`No summoner found with name: ${name}`);
+      setNotFound(name);
     }
   };
 
@@ -31,6 +41,13 @@ export default function NameForm({ setSummoner, region, setRegion }) {
     e.preventDefault();
     getSummoner();
   };
+
+  useEffect(() => {
+    if (masteryData.length === 0 && name) {
+      console.log("set summoner, mastery data length is 0");
+      setNoMastery(true);
+    }
+  }, [masteryData]);
 
   return (
     <>
@@ -67,7 +84,18 @@ export default function NameForm({ setSummoner, region, setRegion }) {
             ))}
           </div>
         </div>
+        {notFound ? (
+          <div className="notFound">Summoner {name} not found</div>
+        ) : (
+          <></>
+        )}
+        {noMastery ? (
+          <div className="notFound">Summoner {name} has no mastery</div>
+        ) : (
+          <></>
+        )}
       </form>
+      <br />
     </>
   );
 }

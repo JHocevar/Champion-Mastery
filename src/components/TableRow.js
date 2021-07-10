@@ -4,9 +4,20 @@ import { GatsbyImage } from "gatsby-plugin-image";
 import "../styles/global.css";
 
 export default function TableRow({ image, champion, noImage }) {
-  const handleOpenChamp = (e) => {
-    console.log("Clicked on " + e.target.value);
+  const chestGranted = (cg) => {
+    if (cg === "Chest Earned") {
+      return cg;
+    }
+    return cg ? "True" : "False";
   };
+
+  let style;
+  if (champion.chestGranted !== "Chest Earned") {
+    style = {
+      color: champion.chestGranted ? "lightgreen" : "lightred",
+      fontWeight: "bold",
+    };
+  }
 
   return (
     <>
@@ -25,6 +36,7 @@ export default function TableRow({ image, champion, noImage }) {
         <div>{champion.championName}</div>
         <div>{formatNumber(champion.championPoints)}</div>
         <div>{champion.championLevel}</div>
+        <div style={style}>{chestGranted(champion.chestGranted)}</div>
       </div>
     </>
   );

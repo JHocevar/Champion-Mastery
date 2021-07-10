@@ -49,6 +49,7 @@ export default function MasteryTable({ champData, masteryData }) {
             championName: "Champion",
             championPoints: "Mastery Points",
             championLevel: "Mastery Level",
+            chestGranted: "Chest Earned",
           }}
           noImage={true}
         />
