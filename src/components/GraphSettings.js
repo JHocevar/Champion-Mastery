@@ -1,6 +1,3 @@
-import Icon from "../images/gear.svg";
-import { useState } from "react";
-
 export default function GraphSettings({
   swapDataset,
   updateDataset,

@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import Icon from "../images/gear.svg";
+import Icon from "../images/Gear.svg";
 import { Chart, registerables } from "chart.js";
 import _ from "lodash";
 import GraphSettings from "./GraphSettings";
